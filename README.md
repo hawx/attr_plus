@@ -60,7 +60,7 @@ make it more clear:
 
 ## Thanks
 
-- <http://railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/]>
+- <http://railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/>
   For originally demystifying the class instance variable thing.
 - <http://www.raulparolari.com/Rails/class_inheritable> For ideas on how to implement 
   class level attribute accessors which inherit values.
