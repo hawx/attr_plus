@@ -183,7 +183,7 @@ class Class
     @registered_defaults ||= {}
   end
   
-  def inherited_with_attrs(klass)
+  def inherited_with_attrs(klass)    
     inherited_without_attrs(klass) if respond_to?(:inherited_without_attrs)
     if registered_defaults
       new_attrs = registered_defaults.inject({}) do |a, (k, v)|
@@ -196,6 +196,7 @@ class Class
     new_attrs.each do |k, v|
       klass.instance_variable_set("@#{k}", v)
     end
+    klass.instance_variable_set("@registered_defaults", new_attrs)
   end
   alias inherited_without_attrs inherited
   alias inherited inherited_with_attrs
