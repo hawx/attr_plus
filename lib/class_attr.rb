@@ -168,13 +168,49 @@ class Class
   
   private
   
+  # Non-inheritable attrs won't get any starting value, even if it has been set
+  # on a superclass so we need to save the value and set them when the class is 
+  # inherited.
+  #
+  # @param key [Symbol]
+  # @param value [Object]
+  #
+  def register_default(key, value)
+     registered_defaults[key] = value
+  end
+  
+  def registered_defaults
+    @registered_defaults ||= {}
+  end
+  
+  def inherited_with_attrs(klass)
+    inherited_without_attrs(klass) if respond_to?(:inherited_without_attrs)
+    if registered_defaults
+      new_attrs = registered_defaults.inject({}) do |a, (k, v)|
+        a.update(k => (v.dup rescue v))
+      end
+    else
+      new_attrs = {}
+    end
+    
+    new_attrs.each do |k, v|
+      klass.instance_variable_set("@#{k}", v)
+    end
+  end
+  alias inherited_without_attrs inherited
+  alias inherited inherited_with_attrs
+  
   # @param args [Array]
   # @return [Array[Array, Object]]
   #
   def separate_argument_list_and_default(args)
     if args.size == 1 && args.first.is_a?(Hash)
+      register_default(args.first.keys[0], args.first.values[0])
       [[args.first.keys[0]], args.first.values[0]]
     elsif args.last.is_a?(Hash)
+      args[0..-2].each do |arg|
+        register_default(arg, args.last[:default])
+      end
       [args[0..-2], args.last[:default]]
     else
       [args, nil]
