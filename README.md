@@ -48,14 +48,24 @@ make it more clear:
     Agent.legs  #=> 2
     
 
-### Install
+## Install
 
     (sudo) gem install class_attr
     
 
-### Use
+## Use
 
     require 'class_attr'
+
+Or, as in some cases this may be overkill, copy the parts you need over (you will need to modify it,
+but that should be easy to work out.)
+    
+
+### Important!
+
+If in a class you define the `self.inherited` method, make sure to call super at the end (or beginning)
+otherwise default values will not be set for the subclass. But I'm guessing you already called super
+anyway in a method like that.
     
 
 ## Thanks
