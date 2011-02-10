@@ -38,7 +38,7 @@ class Class
           self.class.send(:#{name})
         end
       EOS
-      self.instance_variable_set("@#{name}", default.dup)
+      self.instance_variable_set("@#{name}", (default.dup rescue default))
     end
   end
   
@@ -117,7 +117,7 @@ class Class
           self.class.send(:#{name})
         end
       EOS
-      self.instance_variable_set("@#{name}", default.dup)
+      self.instance_variable_set("@#{name}", (default.dup rescue default))
     end
   end
   
