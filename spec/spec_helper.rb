@@ -4,7 +4,7 @@ if RUBY_VERSION >= "1.9"
 end
 
 require 'rspec'
-require 'class_attr'
+require 'attr_plus'
 
 RSpec.configure do |config|
   config.color_enabled = true
