@@ -1,5 +1,9 @@
 require 'attr_plus/ext'
 
+# Should add cattr_accessor, which provides accessors for @@ class 
+# variables!
+
+
 class Class
   
   # Defines a method that allows you to read an instance variable set at the
@@ -121,6 +125,7 @@ class Class
       EOS
       self.instance_variable_set("@#{name}", (default.dup rescue default))
     end
+    inheritable_attrs.concat(names).uniq!
   end
   
   # The same as #class_attr_writer.
@@ -181,8 +186,15 @@ class Class
      registered_defaults[key] = value
   end
   
+  # Hash of default values, used for inheritable and non-inheritable attrs.
   def registered_defaults
     @registered_defaults ||= {}
+  end
+  
+  # Array of symbols to call when setting up a subclass, which will provide the
+  # new default values to use. This allows the current values to be inherited.
+  def inheritable_attrs
+    @inheritable_attrs ||= []
   end
   
   def inherited_with_attrs(klass)    
@@ -193,6 +205,13 @@ class Class
       end
     else
       new_attrs = {}
+    end
+    
+    new_attrs.each do |key, value|
+      result = self.send(key)
+      if result
+        new_attrs[key] = result
+      end # else leave as default
     end
     
     new_attrs.each do |k, v|
