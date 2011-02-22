@@ -210,7 +210,7 @@ class Class
     new_attrs.each do |key, value|
       result = self.send(key)
       if result
-        new_attrs[key] = result
+        new_attrs[key] = (result.dup rescue result)
       end # else leave as default
     end
     
