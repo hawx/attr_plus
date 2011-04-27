@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Class do
+describe "Class" do
 
-  describe "#class_attr_reader" do
+  describe ".class_attr_reader" do
     subject { Class.new { class_attr_reader :test } }
   
     it "defines a read method for the class" do 
@@ -14,7 +14,7 @@ describe Class do
     end
   end
   
-  describe "#class_attr_writer" do
+  describe ".class_attr_writer" do
     subject { Class.new { class_attr_writer :test } }
   
     it "defines a write method for the class" do
@@ -22,7 +22,7 @@ describe Class do
     end
   end
   
-  describe "#class_attr_accessor" do
+  describe ".class_attr_accessor" do
     subject { Class.new { class_attr_accessor :test } }
   
     it "defines a read method for the class" do
@@ -69,7 +69,7 @@ describe Class do
     
   # Inheritable class attributes
   
-  describe "#inheritable_class_attr_reader" do
+  describe ".inheritable_class_attr_reader" do
     subject { Class.new { inheritable_class_attr_reader :test } }
     
     it "defines a read method for the class" do
@@ -81,7 +81,7 @@ describe Class do
     end
   end
   
-  describe "#inheritable_class_attr_writer" do
+  describe ".inheritable_class_attr_writer" do
     subject { Class.new { inheritable_class_attr_writer :test } }
     
     it "defines a write method for the class" do
@@ -89,7 +89,7 @@ describe Class do
     end
   end
   
-  describe "#inheritable_class_attr_accessor" do
+  describe ".inheritable_class_attr_accessor" do
     subject { Class.new { inheritable_class_attr_accessor :test } }
   
     it "defines a read method for the class" do

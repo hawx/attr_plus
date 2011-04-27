@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Module do
+describe "Module" do
   
   describe "#module_attr_reader" do
     subject { Module.new { module_attr_reader :test } }

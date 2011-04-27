@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Module do
+describe "Instance" do
 
   describe ".private_attr_reader" do
     subject { 
