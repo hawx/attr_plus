@@ -2,7 +2,7 @@
 
 ## ClassAttr
 
-Adds `#class_attr_accessor` (and reader/writer) and `#inheritable_class_attr_accessor` (and
+Adds `class_attr_accessor` (and reader/writer) and `inheritable_class_attr_accessor` (and
 reader/writer of course) to Class.
 
     require 'attr_plus'
@@ -111,6 +111,48 @@ And then as usual there are `private_attr_accessor` and `private_attr_writer` wh
 as expected.
     
 
+## HashAttr
+
+You can now access specific keys of a hash using `hash_attr_*` or `class_hash_attr_*`. The
+normal version will get the variable in an instance but the class version works at the class
+level, for example,
+
+    require_relative 'lib/attr_plus/hash'
+    
+    class SomeApp
+      @config = {:name => 'SomeApp', :version => '3.1.7'}
+      class_hash_attr_accessor :@config, :name, :version
+      
+      def self.config; @config; end
+    end
+    
+    p SomeApp.config #=> {:name => 'SomeApp', :version => '3.1.7'}
+    SomeApp.name = 'CoolApp'
+    p SomeApp.name #=> 'CoolApp'
+    SomeApp.version = '4.0.0'
+    p SomeApp.config #=> {:name => 'CoolApp', :version => '4.0.0'}
+
+Uses the class versions, but it could easily be written using the normal versions (probably
+the most usual way):
+
+    class AnApp
+      def initialize
+        @config = {}
+      end
+      
+      hash_attr_accessor :@config, :name, :version
+      attr_accessor :config
+    end
+    
+    some_app = AnApp.new
+    some_app.name = 'AnotherApp'
+    some_app.version = '1.5.0'
+    p some_app.config #=> {:name => 'AnotherApp', :version => '1.5.0'}
+
+In both of these I've passed the instance variable as a symbol as the argument to get the hash
+but I could have used just `:config` as the method has been created as well.
+
+
 ## Install
 
     (sudo) gem install attr_plus
@@ -120,9 +162,10 @@ as expected.
 
     require 'attr_plus'
     
-    # or for specific methods
-    require 'attr_plus/class' # for only class_*
-    require 'attr_plus/module' # for only module_*
+    # OR for specific methods
+    require 'attr_plus/class'    # for only class_*
+    require 'attr_plus/module'   # for only module_*
+    require 'attr_plus/hash'     # for only hash_*
     require 'attr_plus/instance' # for only private_attr_*
         
 
