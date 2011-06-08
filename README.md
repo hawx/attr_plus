@@ -60,9 +60,7 @@ Agent.legs  #=> 2
 
 ## ModuleAttr
 
-Almost exactly the same as `class_*` but for modules. __Note__ there is no module inheritance
-so `inheritable_module_*` will not work, I am thinking of adding `includable_module_*` later
-but they aren't in yet so can't be used!
+Almost exactly the same as `class_*` but for modules.
 
 ``` ruby
 require 'attr_plus/module'
@@ -162,7 +160,8 @@ p some_app.config #=> {:name => 'AnotherApp', :version => '1.5.0'}
 ```
 
 In both of these I've passed the instance variable as a symbol as the argument to get the hash
-but I could have used just `:config` as the method has been created as well.
+but I could have used just `:config` as I have create the methods in each. If the hash uses 
+string keys just pass the arguments to `.hash_attr_` as strings instead of symbols.
 
 
 ## Install
