@@ -144,4 +144,24 @@ describe "Hash" do
     end
   end
   
+  context 'When using string keys' do
+    subject {
+      Class.new {
+        hash_attr_accessor :@config, 'name'
+        def initialize
+          @config = {'name' => "John Doe"}
+        end
+      }.new
+    }
+    
+    it "allows access to values" do
+      subject.name.should == 'John Doe'
+    end
+    
+    it "allows values to be set" do
+      subject.name = 'Tom'
+      subject.name.should == 'Tom'
+    end
+  end
+  
 end

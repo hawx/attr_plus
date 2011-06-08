@@ -3,15 +3,15 @@ require 'attr_plus/ext'
 # Should add cattr_accessor, which provides accessors for @@ class 
 # variables!
 
-
 class Class
   
   # Defines a method that allows you to read an instance variable set at the
   # class level. Also defines an _instance_ method that reads the same thing.
   # Comparable to #attr_reader for the class level.
   #
-  # So in summary defines: .var (which gets @var) and 
-  #                        #var (which gets self.class.var)
+  # So in summary defines: 
+  # - .var (which gets @var) and 
+  # - #var (which gets self.class.var)
   # 
   # @example
   #
@@ -41,7 +41,7 @@ class Class
         end
 
         def #{name}
-          self.class.send(:#{name})
+          @#{name} ||= self.class.send(:#{name}).dup
         end
       EOS
       self.instance_variable_set("@#{name}", (default.dup rescue default))
@@ -75,6 +75,10 @@ class Class
         def self.#{name}=(obj)
           @#{name} = obj
         end
+        
+        def #{name}=(obj)
+          @#{name} = obj
+        end
       EOS
     end
   end
@@ -101,6 +105,7 @@ class Class
     class_attr_writer(*names)
   end
   
+  
   # Creates a class and instance method to read the class level variable(s)
   # with the name(s) provided. If no value has been set it attempts to use
   # the value of the superclass.
@@ -120,7 +125,7 @@ class Class
         end
 
         def #{name}
-          self.class.send(:#{name})
+          @#{name} ||= self.class.send(:#{name})
         end
       EOS
       self.instance_variable_set("@#{name}", (default.dup rescue default))

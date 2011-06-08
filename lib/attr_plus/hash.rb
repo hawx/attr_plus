@@ -11,7 +11,7 @@ class Module
     args.each do |arg|
       self.class_eval <<-EOS
         def #{arg}
-          #{var}[:#{arg}]
+          #{var}[#{arg.inspect}]
         end
       EOS
     end
@@ -25,10 +25,10 @@ class Module
   #   Keys for +var+, these will have methods set up for writing to.
   #
   def hash_attr_writer(var, *args)
-    args.each do |arg|  
+    args.each do |arg|
       self.class_eval <<-EOS
         def #{arg}=(val)
-          #{var}[:#{arg}] = val
+          #{var}[#{arg.inspect}] = val
         end
       EOS
     end
@@ -49,17 +49,17 @@ class Module
     args.each do |arg|
       self.instance_eval <<-EOS
         def #{arg}
-          #{var}[:#{arg}]
+          #{var}[#{arg.inspect}]
         end
       EOS
     end
   end
   
   def class_hash_attr_writer(var, *args)
-    args.each do |arg|  
+    args.each do |arg|
       self.instance_eval <<-EOS
         def #{arg}=(val)
-          #{var}[:#{arg}] = val
+          #{var}[#{arg.inspect}] = val
         end
       EOS
     end

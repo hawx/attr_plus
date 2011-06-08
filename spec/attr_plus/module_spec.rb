@@ -38,18 +38,9 @@ describe "Module" do
     end
     
     it "returns the new value if it is changed" do
-      subject.test = nil
-      subject.test.should be_nil
-    end
-    
-    context "when this module is included" do
-      subject { Class.new { include Module.new { module_attr_accessor :test => "hi" } } }
-      
-      it "returns the default value as well" do
-        subject.test.should == "hi"
-      end
-    end
-    
+      subject.test = "bye"
+      subject.test.should == "bye"
+    end    
   end
   
 end
